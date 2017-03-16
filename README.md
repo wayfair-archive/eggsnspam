@@ -1,7 +1,7 @@
 Green Eggs & Spam - A Flask Demo App
 ====================================
 
-Flask is a leight-weight, loosely coupled, and unopinionated framework for developing python web services.
+Flask is a light-weight, loosely coupled, and unopinionated framework for developing python web services.
 
 This application serves as an example & guideline for rolling your own Flask app at Wayfair, and in many ways, serves as the "Official Wayfair opinion" on how to structure your Flask projects.
 
