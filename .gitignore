@@ -1,0 +1,14 @@
+# Python stuff
+*.pyc
+
+# SQLite DB
+eggsnspam.db
+
+# Log files
+*.log
+
+# Vagrant files
+.vagrant
+
+# venv
+*venv
