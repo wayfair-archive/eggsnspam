@@ -23,7 +23,7 @@ class BreakfastTestCase(BaseTestCase):
         response = self.client.get("/oop_phrasebook/breakfast/",
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertIn("breakfasts", response_data)
         self.assertTrue(m_list_all.called)
         self.assertEqual(len(response_data["breakfasts"]), 0)
@@ -41,7 +41,7 @@ class BreakfastTestCase(BaseTestCase):
         response = self.client.get("/oop_phrasebook/breakfast/",
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertEqual(len(response_data['breakfasts']), len(m_results))
         for breakfast in response_data['breakfasts']:
             self.assertIn(breakfast['id'], breakfast_ids)
@@ -62,7 +62,7 @@ class BreakfastTestCase(BaseTestCase):
         response = self.client.get("/oop_phrasebook/breakfast/{}".format(mocked_breakfast_data['id']),
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertEqual(response_data['id'], mocked_breakfast_data['id'])
         self.assertEqual(response_data['name'], mocked_breakfast_data['name'])
 
@@ -79,7 +79,7 @@ class IngredientTestCase(BaseTestCase):
         response = self.client.get("/oop_phrasebook/ingredient/",
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertIn("ingredients", response_data)
         self.assertTrue(m_list_all.called)
         self.assertEqual(len(response_data["ingredients"]), 0)
@@ -97,7 +97,7 @@ class IngredientTestCase(BaseTestCase):
         response = self.client.get("/oop_phrasebook/ingredient/",
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertEqual(len(response_data['ingredients']), len(m_results))
         for ingredient in response_data['ingredients']:
             self.assertIn(ingredient['id'], ingredient_ids)
@@ -118,7 +118,7 @@ class IngredientTestCase(BaseTestCase):
         response = self.client.get("/oop_phrasebook/ingredient/{}".format(mocked_ingredient_data['id']),
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertEqual(response_data['id'], mocked_ingredient_data['id'])
         self.assertEqual(response_data['name'], mocked_ingredient_data['name'])
 
@@ -135,7 +135,7 @@ class UserTestCase(BaseTestCase):
         response = self.client.get("/oop_phrasebook/user/",
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertIn("users", response_data)
         self.assertTrue(m_list_all.called)
         self.assertEqual(len(response_data["users"]), 0)
@@ -153,7 +153,7 @@ class UserTestCase(BaseTestCase):
         response = self.client.get("/oop_phrasebook/user/",
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertEqual(len(response_data['users']), len(m_results))
         for user in response_data['users']:
             self.assertIn(user['id'], user_ids)
@@ -180,7 +180,7 @@ class UserTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 201)
 
         # expect the json reprisentation of the user to be returned
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertEqual(response_data['id'], 1)
         self.assertEqual(response_data['first_name'], request_data['first_name'])
         self.assertEqual(response_data['last_name'], request_data['last_name'])
@@ -201,7 +201,7 @@ class UserTestCase(BaseTestCase):
         response = self.client.get("/oop_phrasebook/user/{}".format(mocked_user_data['id']),
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertEqual(response_data['id'], mocked_user_data['id'])
         self.assertEqual(response_data['first_name'], mocked_user_data['first_name'])
         self.assertEqual(response_data['last_name'], mocked_user_data['last_name'])
@@ -213,15 +213,15 @@ class UserTestCase(BaseTestCase):
 
         # Expect a 404 resposne code if the user does not exist
         m_list_all.return_value = [
-            {u'breakfast_id': 1, u'ingredient_id': 1, u'coefficient': 0.8},
-            {u'breakfast_id': 1, u'ingredient_id': 2, u'coefficient': 0.8},
-            {u'breakfast_id': 1, u'ingredient_id': 3, u'coefficient': 0.2},
-            {u'breakfast_id': 2, u'ingredient_id': 1, u'coefficient': 0.0},
-            {u'breakfast_id': 2, u'ingredient_id': 2, u'coefficient': 0.2},
-            {u'breakfast_id': 2, u'ingredient_id': 3, u'coefficient': 0.9},
-            {u'breakfast_id': 3, u'ingredient_id': 1, u'coefficient': 0.9},
-            {u'breakfast_id': 3, u'ingredient_id': 2, u'coefficient': 0.5},
-            {u'breakfast_id': 3, u'ingredient_id': 3, u'coefficient': 0.1}
+            {'breakfast_id': 1, 'ingredient_id': 1, 'coefficient': 0.8},
+            {'breakfast_id': 1, 'ingredient_id': 2, 'coefficient': 0.8},
+            {'breakfast_id': 1, 'ingredient_id': 3, 'coefficient': 0.2},
+            {'breakfast_id': 2, 'ingredient_id': 1, 'coefficient': 0.0},
+            {'breakfast_id': 2, 'ingredient_id': 2, 'coefficient': 0.2},
+            {'breakfast_id': 2, 'ingredient_id': 3, 'coefficient': 0.9},
+            {'breakfast_id': 3, 'ingredient_id': 1, 'coefficient': 0.9},
+            {'breakfast_id': 3, 'ingredient_id': 2, 'coefficient': 0.5},
+            {'breakfast_id': 3, 'ingredient_id': 3, 'coefficient': 0.1}
         ]
 
         m_get_by_id_join_preferences.return_value = None
@@ -244,7 +244,7 @@ class UserTestCase(BaseTestCase):
         response = self.client.get("/oop_phrasebook/user/1/breakfast_recommendations",
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertIn('breakfast_recs', response_data)
         self.assertEqual(len(response_data['breakfast_recs']), 3)
         self.assertTrue('breakfast_id' in response_data['breakfast_recs'][0])
@@ -272,7 +272,7 @@ class UserTestCase(BaseTestCase):
                                    content_type='application/json',
                                    data=json.dumps(request_data))
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertEqual(response_data['first_name'], request_data['first_name'])
         self.assertEqual(response_data['last_name'], request_data['last_name'])
         self.assertEqual(m_update.call_args[1]['first_name'], request_data['first_name'])
@@ -329,7 +329,7 @@ class UserPreferencesTestCase(BaseTestCase):
         m_get_by_id.return_value = {'id': 1, 'first_name': 'Adam', 'last_name': 'Anderson'}
         response = self.client.get(self.list_url, content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertIn("user_preferences", response_data)
         self.assertEqual(len(response_data["user_preferences"]), 0)
 
@@ -344,7 +344,7 @@ class UserPreferencesTestCase(BaseTestCase):
         # exepect 3 objects to be returned
         response = self.client.get(self.list_url, content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertIn("user_preferences", response_data)
         self.assertEqual(len(response_data["user_preferences"]), 3)
 
@@ -375,7 +375,7 @@ class UserPreferencesTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 201)
 
         # expect the json reprisentation of the user to be returned
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertEqual(response_data['user_id'], self.user_id)
         self.assertEqual(response_data['ingredient_id'], request_data['ingredient_id'])
         self.assertEqual(response_data['coefficient'], request_data['coefficient'])
@@ -418,7 +418,7 @@ class UserPreferencesTestCase(BaseTestCase):
                                    content_type='application/json',
                                    data=json.dumps(request_data))
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertEqual(response_data['coefficient'], request_data['coefficient'])
 
     @mock.patch('eggsnspam.oop_phrasebook.daos.UserPreferenceDao.delete')

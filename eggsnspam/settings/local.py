@@ -17,4 +17,4 @@ class LocalConfig(BaseConfig):
     """Local config for running the app on your local machine."""
 
     # DATABASE CONFIGURATION
-    SQLALCHEMY_DATABASE_URI = 'sqlite:////home/vagrant/eggsnspam/eggsnspam.db'
+    SQLALCHEMY_DATABASE_URI = 'mssql+pymssql://sa:Password-123@mssql/eggsnspam'

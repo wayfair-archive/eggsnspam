@@ -1,3 +1,5 @@
+from six import string_types
+
 from eggsnspam.common.recommendations import dot_product
 
 from .daos import BreakfastDao, IngredientDao, UserDao, UserPreferenceDao, BreakfastIngredientDao
@@ -5,7 +7,7 @@ from .daos import BreakfastDao, IngredientDao, UserDao, UserPreferenceDao, Break
 
 def _validate_string(value):
     """Return True if value is a string and is not empty"""
-    return value.__class__ in (str, unicode) and value
+    return isinstance(value, string_types) and value
 
 
 def _validate_int(value):
@@ -185,7 +187,7 @@ class UserModel(BaseModel):
             breakfasts[bi['breakfast_id']][bi['ingredient_id']] = bi['coefficient']
 
         # Use dot product to score similarity of breakfast ingredients and user's preferences
-        for breakfast, ingredients in breakfasts.items():
+        for breakfast, ingredients in list(breakfasts.items()):
             breakfast_scores[breakfast] = dot_product(ingredients, self.preferences)
 
         # build the results object
@@ -275,7 +277,7 @@ class UserPreferenceModel(BaseModel):
     def validate(self):
         """Validate model instance properties. Return True if all properties are valid."""
 
-        return all([_validate_int(self.user_id),
-                    _validate_int(self.ingredient_id),
-                    _validate_float(self.coefficient),
-                    (0 <= self.coefficient <= 1)])
+        return _validate_int(self.user_id) and \
+            _validate_int(self.ingredient_id) and \
+            _validate_float(self.coefficient) and \
+            (0 <= self.coefficient <= 1)

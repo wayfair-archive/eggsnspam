@@ -13,7 +13,7 @@ class eggsnspam {
     ensure => 'directory',
   }
 
-  exec { 'resource title':
+  exec { 'init_database':
     command     => '/home/vagrant/eggsnspam/bin/init_db.sh',
     creates     => '/home/vagrant/eggsnspam/eggsnspam.db',
     cwd         => '/home/vagrant/eggsnspam',

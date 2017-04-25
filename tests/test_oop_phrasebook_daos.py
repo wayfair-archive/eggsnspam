@@ -101,7 +101,7 @@ class UserDaoTestCase(PhrasebookFixturedTestCase, BaseTestCase):
         # expect a user with preferences to have an array of preferences
         result = self.dao.get_by_id_join_preferences(1)
         self.assertEqual(result['id'], 1)
-        self.assertEqual(len(result['preferences'].keys()), 3)
+        self.assertEqual(len(list(result['preferences'].keys())), 3)
         self.assertEqual(result['preferences'][1], 0.8)
         self.assertEqual(result['preferences'][2], 0.4)
         self.assertEqual(result['preferences'][3], 0.6)
@@ -120,15 +120,16 @@ class UserPreferenceDaoTestCase(PhrasebookFixturedTestCase, BaseTestCase):
 
     def test_get_by_id(self):
         """It gets a record by matching an ID"""
-        result = self.dao.get_by_id(1)
-        self.assertDictEqual(result, {'coefficient': 0.8, 'ingredient_id': 1, 'user_id': 1, 'id': 1})
+        result = self.dao.create(user_id=4, ingredient_id=1, coefficient=0.8)
+        result = self.dao.get_by_id(result)
+        self.assertDictIsSuperset(result, {'coefficient': 0.8, 'user_id': 4, 'ingredient_id': 1})
         result = self.dao.get_by_id(-1)
         self.assertEqual(result, None)
 
     def test_get_by_user_ingredient(self):
         """It gets a record by matching an ID"""
         result = self.dao.get_by_user_ingredient(user_id=1, ingredient_id=1)
-        self.assertDictEqual(result, {'coefficient': 0.8, 'ingredient_id': 1, 'user_id': 1, 'id': 1})
+        self.assertDictIsSuperset(result, {'coefficient': 0.8, 'ingredient_id': 1, 'user_id': 1})
         result = self.dao.get_by_user_ingredient(user_id=-1, ingredient_id=1)
         self.assertEqual(result, None)
 
@@ -136,11 +137,12 @@ class UserPreferenceDaoTestCase(PhrasebookFixturedTestCase, BaseTestCase):
         """It gets all records from the database"""
         result = self.dao.list_all_for_user(1)
         self.assertEqual(len(result), 3)
-        self.assertDictEqual(result[0], {'coefficient': 0.8, 'ingredient_id': 1, 'user_id': 1, 'id': 1})
+        self.assertDictIsSuperset(result[0], {'coefficient': 0.8, 'ingredient_id': 1, 'user_id': 1})
 
     def test_update(self):
         """It updates records in the database"""
-        result = self.dao.update(1, user_id=1, ingredient_id=1, coefficient=0.1)
+        id_to_update = self.dao.create(user_id=4, ingredient_id=1, coefficient=0.8)
+        result = self.dao.update(id_to_update, user_id=1, ingredient_id=1, coefficient=0.1)
         self.assertTrue(result)
 
         # expect method to return False if no records matched the ID
@@ -149,11 +151,12 @@ class UserPreferenceDaoTestCase(PhrasebookFixturedTestCase, BaseTestCase):
 
     def test_delete(self):
         """It deletes records from the database"""
-        result = self.dao.delete(1)
+        id_to_delete = self.dao.create(user_id=4, ingredient_id=1, coefficient=0.8)
+        result = self.dao.delete(id_to_delete)
         self.assertTrue(result)
 
         # expect the result to be False if no records matched the ID
-        result = self.dao.delete(1)
+        result = self.dao.delete(id_to_delete)
         self.assertFalse(result)
 
 
@@ -167,4 +170,4 @@ class BreakfastIngredientTestCase(PhrasebookFixturedTestCase, BaseTestCase):
         """It gets all records from the database"""
         result = self.dao.list_all()
         self.assertEqual(len(result), 9)
-        self.assertDictEqual(result[0], {u'breakfast_id': 1, u'coefficient': 0.8, u'ingredient_id': 1})
+        self.assertDictEqual(result[0], {'breakfast_id': 1, 'coefficient': 0.8, 'ingredient_id': 1})

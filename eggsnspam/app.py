@@ -3,8 +3,6 @@
 import logging
 import os
 
-import graypy
-
 import wtforms_json
 
 from flask import Flask
@@ -67,16 +65,6 @@ def configure_logging(app):
     if app.debug or app.testing:
         # Skip debug and test mode. Just check standard output.
         return
-
-    if "GELF_SERVER" in app.config:
-        gelf_handler = graypy.GELFHandler(app.config['GELF_SERVER'], 12201)
-        gelf_formatter = logging.Formatter(
-            '%(asctime)s [%(process)d] [%(levelname)s] %(name)-16s %(message)s',
-            '%Y-%m-%d %H:%M:%S')
-        gelf_handler.setFormatter(gelf_formatter)
-        gelf_handler.setLevel(app.config.get("GELF_LOG_LEVEL", logging.WARNING))
-        app.logger.addHandler(gelf_handler)
-        app.logger.warn('EggsNSpam Flask Service Started! PID={}.'.format(os.getpid()))
 
     # Set default level on logger, which might be overwritten by handlers.
     app.logger.setLevel(app.config.get("LOG_LEVEL", logging.WARNING))

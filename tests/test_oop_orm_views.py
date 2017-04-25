@@ -1,6 +1,6 @@
 import json
 
-from factories.oop_orm_factories import (BreakfastFactory, IngredientFactory, UserFactory,
+from .factories.oop_orm_factories import (BreakfastFactory, IngredientFactory, UserFactory,
                                          UserPreferenceFactory, BreakfastIngredientFactory)
 
 from eggsnspam.extensions import db
@@ -26,7 +26,7 @@ class BreakfastTestCase(OrmTestCase, BaseTestCase):
         response = self.client.get("/oop_orm/breakfast/",
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertIn("breakfasts", response_data)
         self.assertEqual(len(response_data["breakfasts"]), 0)
 
@@ -39,7 +39,7 @@ class BreakfastTestCase(OrmTestCase, BaseTestCase):
         response = self.client.get("/oop_orm/breakfast/",
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         for breakfast in response_data['breakfasts']:
             self.assertIn(breakfast['id'], breakfast_ids)
 
@@ -56,7 +56,7 @@ class BreakfastTestCase(OrmTestCase, BaseTestCase):
         response = self.client.get("/oop_orm/breakfast/{}".format(breakfast.id),
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertEqual(breakfast.name, response_data['name'])
         self.assertEqual(breakfast.id, response_data['id'])
 
@@ -70,7 +70,7 @@ class IngredientTestCase(OrmTestCase, BaseTestCase):
         response = self.client.get("/oop_orm/ingredient/",
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertIn("ingredients", response_data)
         self.assertEqual(len(response_data["ingredients"]), 0)
 
@@ -83,7 +83,7 @@ class IngredientTestCase(OrmTestCase, BaseTestCase):
         response = self.client.get("/oop_orm/ingredient/",
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         for ingredient in response_data['ingredients']:
             self.assertIn(ingredient['id'], ingredient_ids)
 
@@ -100,7 +100,7 @@ class IngredientTestCase(OrmTestCase, BaseTestCase):
         response = self.client.get("/oop_orm/ingredient/{}".format(ingredient.id),
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertEqual(ingredient.name, response_data['name'])
         self.assertEqual(ingredient.id, response_data['id'])
 
@@ -114,7 +114,7 @@ class UserTestCase(OrmTestCase, BaseTestCase):
         response = self.client.get("/oop_orm/user/",
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertIn("users", response_data)
         self.assertEqual(len(response_data["users"]), 0)
 
@@ -127,7 +127,7 @@ class UserTestCase(OrmTestCase, BaseTestCase):
         response = self.client.get("/oop_orm/user/",
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         for user in response_data['users']:
             self.assertIn(user['id'], user_ids)
 
@@ -151,7 +151,7 @@ class UserTestCase(OrmTestCase, BaseTestCase):
         self.assertEqual(response.status_code, 201)
 
         # expect the json reprisentation of the user to be returned
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertEqual(response_data['first_name'], request_data['first_name'])
         self.assertEqual(response_data['last_name'], request_data['last_name'])
 
@@ -189,7 +189,7 @@ class UserTestCase(OrmTestCase, BaseTestCase):
         response = self.client.get("/oop_orm/user/{}".format(user.id),
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertEqual(response_data['id'], user.id)
         self.assertEqual(response_data['first_name'], user.first_name)
         self.assertEqual(response_data['last_name'], user.last_name)
@@ -214,7 +214,7 @@ class UserTestCase(OrmTestCase, BaseTestCase):
                                    content_type='application/json',
                                    data=json.dumps(request_data))
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertEqual(response_data['first_name'], 'Beta')
         self.assertEqual(response_data['last_name'], 'Baboon')
 
@@ -269,7 +269,7 @@ class UserTestCase(OrmTestCase, BaseTestCase):
             response = self.client.get(url, content_type='application/json')
 
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertIn('breakfast_recs', response_data)
         self.assertEqual(len(response_data['breakfast_recs']), 3)
         self.assertTrue('breakfast_id' in response_data['breakfast_recs'][0])
@@ -298,7 +298,7 @@ class UserPreferencesTestCase(OrmTestCase, BaseTestCase):
         # expect no user preferences to return an empty json object
         response = self.client.get(self.list_url, content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertIn("user_preferences", response_data)
         self.assertEqual(len(response_data["user_preferences"]), 0)
 
@@ -309,7 +309,7 @@ class UserPreferencesTestCase(OrmTestCase, BaseTestCase):
         # exepect 3 objects to be returned
         response = self.client.get(self.list_url, content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertIn("user_preferences", response_data)
         self.assertEqual(len(response_data["user_preferences"]), 3)
 
@@ -339,7 +339,7 @@ class UserPreferencesTestCase(OrmTestCase, BaseTestCase):
         self.assertEqual(response.status_code, 201)
 
         # expect the json reprisentation of the user to be returned
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertEqual(response_data['user_id'], self.user.id)
         self.assertEqual(response_data['ingredient_id'], request_data['ingredient'])
         self.assertEqual(response_data['coefficient'], request_data['coefficient'])
@@ -415,7 +415,7 @@ class UserPreferencesTestCase(OrmTestCase, BaseTestCase):
                                    content_type='application/json',
                                    data=json.dumps(request_data))
         self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.data)
+        response_data = response.json
         self.assertEqual(response_data['coefficient'], request_data['coefficient'])
 
         # expect the record to be updated

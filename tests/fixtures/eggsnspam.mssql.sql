@@ -1,21 +1,21 @@
-DELETE FROM tblBreakfast;
 SET IDENTITY_INSERT tblBreakfast ON;
+DELETE FROM tblBreakfast;
 INSERT INTO tblBreakfast (id, name) VALUES
 (1, 'Eggs and Spam'),
 (2, 'Pancakes'),
 (3, 'Fruit');
 SET IDENTITY_INSERT tblBreakfast OFF;
 
-DELETE FROM tblIngredient;
 SET IDENTITY_INSERT tblIngredient ON;
+DELETE FROM tblIngredient;
 INSERT INTO tblIngredient (id, name) VALUES
 (1, 'Eggs'),
 (2, 'Spam'),
 (3, 'Cantelope');
 SET IDENTITY_INSERT tblIngredient OFF;
 
-DELETE FROM tblUser;
 SET IDENTITY_INSERT tblUser ON;
+DELETE FROM tblUser;
 INSERT INTO tblUser (id, first_name, last_name) VALUES
 (1, 'Adam', 'Anderson'),
 (2, 'Betty', 'Blevins'),

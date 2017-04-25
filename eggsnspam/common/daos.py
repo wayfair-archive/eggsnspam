@@ -15,7 +15,7 @@ class SqlBaseDao(object):
         return self._conn
 
     def _row_to_dict(self, row):
-        return dict(zip(row.keys(), row))
+        return dict(list(zip(list(row.keys()), row)))
 
     def execute(self, query, *args, **kwargs):
         """Execute a query on the database"""

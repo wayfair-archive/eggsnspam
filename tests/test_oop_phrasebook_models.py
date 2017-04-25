@@ -143,8 +143,8 @@ class UserModelTestCase(PhrasebookFixturedTestCase, BaseTestCase):
         self.assertTrue(user.validate())
 
         # Expect a unicode name to be valid
-        user.first_name = u"Tom"
-        user.last_name = u"Tabarau"
+        user.first_name = "Tom"
+        user.last_name = "Tabarau"
         self.assertTrue(user.validate())
 
     @mock.patch.object(UserModel, "validate", return_value=True)
@@ -215,15 +215,15 @@ class UserModelTestCase(PhrasebookFixturedTestCase, BaseTestCase):
 
         mock_dao = mock.MagicMock()
         mock_dao.list_all.return_value = [
-            {u'breakfast_id': 1, u'ingredient_id': 1, u'coefficient': 0.8},
-            {u'breakfast_id': 1, u'ingredient_id': 2, u'coefficient': 0.8},
-            {u'breakfast_id': 1, u'ingredient_id': 3, u'coefficient': 0.2},
-            {u'breakfast_id': 2, u'ingredient_id': 1, u'coefficient': 0.0},
-            {u'breakfast_id': 2, u'ingredient_id': 2, u'coefficient': 0.2},
-            {u'breakfast_id': 2, u'ingredient_id': 3, u'coefficient': 0.9},
-            {u'breakfast_id': 3, u'ingredient_id': 1, u'coefficient': 0.9},
-            {u'breakfast_id': 3, u'ingredient_id': 2, u'coefficient': 0.5},
-            {u'breakfast_id': 3, u'ingredient_id': 3, u'coefficient': 0.1}
+            {'breakfast_id': 1, 'ingredient_id': 1, 'coefficient': 0.8},
+            {'breakfast_id': 1, 'ingredient_id': 2, 'coefficient': 0.8},
+            {'breakfast_id': 1, 'ingredient_id': 3, 'coefficient': 0.2},
+            {'breakfast_id': 2, 'ingredient_id': 1, 'coefficient': 0.0},
+            {'breakfast_id': 2, 'ingredient_id': 2, 'coefficient': 0.2},
+            {'breakfast_id': 2, 'ingredient_id': 3, 'coefficient': 0.9},
+            {'breakfast_id': 3, 'ingredient_id': 1, 'coefficient': 0.9},
+            {'breakfast_id': 3, 'ingredient_id': 2, 'coefficient': 0.5},
+            {'breakfast_id': 3, 'ingredient_id': 3, 'coefficient': 0.1}
         ]
 
         # Expect a value error if we have not loaded recommendations

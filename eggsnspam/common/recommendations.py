@@ -3,4 +3,4 @@ def dot_product(d1, d2, default_value=0):
 
     If the key does not exist in d2, default_value is used instead.
     """
-    return sum(map(lambda x: float(d1[x]) * float(d2.get(x, default_value)), d1.keys()))
+    return sum([float(d1[x]) * float(d2.get(x, default_value)) for x in list(d1.keys())])

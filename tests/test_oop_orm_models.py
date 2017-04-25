@@ -1,4 +1,4 @@
-from factories.oop_orm_factories import (BreakfastFactory, IngredientFactory, UserFactory,
+from .factories.oop_orm_factories import (BreakfastFactory, IngredientFactory, UserFactory,
                                          UserPreferenceFactory, BreakfastIngredientFactory)
 
 from eggsnspam.extensions import db

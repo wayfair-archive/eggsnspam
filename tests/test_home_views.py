@@ -7,4 +7,4 @@ class HomeTestCase(BaseTestCase):
         """It says hello properly"""
         response = self.client.get("/", content_type='text/plain')
         self.assertEqual(response.status_code, 200)
-        self.assertIn("Hello world!", response.data)
+        self.assertIn("Hello world!", response.data.decode("utf-8"))

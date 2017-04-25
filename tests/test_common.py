@@ -12,6 +12,16 @@ class SqlBaseDaoTestCase(BaseDaoFixturedTestCase, BaseTestCase):
         super(SqlBaseDaoTestCase, self).setUp()
         self.dao = SqlBaseDao()
 
+    def test_insert(self):
+        """It inserts a record"""
+        query = text("""
+        INSERT INTO tblExample VALUES ('Mr. Test');
+        SELECT @@IDENTITY;
+        """)
+        # Expect one record to be returned
+        result = self.dao.execute(query)
+        self.assertTrue(result.fetchone()[0] > 0)
+
     def test_fetchone(self):
         """It gets a single row"""
         query = text("""

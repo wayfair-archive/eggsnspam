@@ -74,20 +74,19 @@ class SqlFixturedTestCase(object):
         for sql_fixture in self.sql_fixtures:
             with open(sql_fixture) as fixture_file:
                 # a little blunt, but it works
-                for statement in fixture_file.read().split(";"):
-                    conn.execute(statement)
+                conn.execute(fixture_file.read())
 
 
 class BaseDaoFixturedTestCase(SqlFixturedTestCase):
 
     sql_fixtures = [
-        'tests/fixtures/base_dao.sql'
+        'tests/fixtures/base_dao.mssql.sql'
     ]
 
 
 class PhrasebookFixturedTestCase(SqlFixturedTestCase):
 
     sql_fixtures = [
-        'eggsnspam/table_defs/eggsnspam.sqlite3.sql',
-        'tests/fixtures/eggsnspam.sql',
+        'eggsnspam/table_defs/eggsnspam.mssql.sql',
+        'tests/fixtures/eggsnspam.mssql.sql',
     ]

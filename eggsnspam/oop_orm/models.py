@@ -19,11 +19,11 @@ class Breakfast(db.Model):
 
     def __unicode__(self):
         """The string representation of the object instance."""
-        return u'<Breakfast %s>' % self.name
+        return '<Breakfast %s>' % self.name
 
     def to_dict(self):
         """Convert the object instance to a python dict."""
-        return {k: v for k, v in self.__dict__.items() if k != "_sa_instance_state"}
+        return {k: v for k, v in list(self.__dict__.items()) if k != "_sa_instance_state"}
 
 
 class Ingredient(db.Model):
@@ -46,7 +46,7 @@ class Ingredient(db.Model):
 
     def to_dict(self):
         """Convert the object instance to a python dict."""
-        return {k: v for k, v in self.__dict__.items() if k != "_sa_instance_state"}
+        return {k: v for k, v in list(self.__dict__.items()) if k != "_sa_instance_state"}
 
 
 class User(db.Model):
@@ -65,11 +65,11 @@ class User(db.Model):
 
     @property
     def full_name(self):
-        return u"{} {}".format(self.first_name, self.last_name)
+        return "{} {}".format(self.first_name, self.last_name)
 
     def __unicode__(self):
         """The string representation of the object instance."""
-        return u'<User %s>' % self.full_name
+        return '<User %s>' % self.full_name
 
     def to_dict(self):
         """Convert the object instance to a python dict."""
@@ -94,7 +94,7 @@ class User(db.Model):
             breakfasts[bi.breakfast_id][bi.ingredient_id] = bi.coefficient
 
         # Use dot product to score similarity of breakfast ingredients and user's preferences
-        for breakfast, ingredients in breakfasts.items():
+        for breakfast, ingredients in list(breakfasts.items()):
             breakfast_scores[breakfast] = dot_product(ingredients, user_prefs)
 
         # build the results object

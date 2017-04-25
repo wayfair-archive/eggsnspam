@@ -70,7 +70,7 @@ class UserDao(SqlBaseDao):
             return None
 
         preferences = {}
-        for r in filter(lambda x: x['ingredient_id'] is not None, result):
+        for r in [x for x in result if x['ingredient_id'] is not None]:
             preferences[r['ingredient_id']] = r['coefficient']
 
         return {
@@ -87,10 +87,12 @@ class UserDao(SqlBaseDao):
             (first_name, last_name)
         VALUES
             (:first_name, :last_name);
+        SELECT @@IDENTITY;
         """)
         result = self.execute(query, first_name=first_name, last_name=last_name)
+        new_id = int(result.fetchone()[0])
         db.session.commit()
-        return result.lastrowid
+        return new_id
 
     def update(self, id, first_name, last_name):
         """Update a record in the database with new values"""
@@ -149,13 +151,15 @@ class UserPreferenceDao(SqlBaseDao):
             (user_id, ingredient_id, coefficient)
         VALUES
             (:user_id, :ingredient_id, :coefficient);
+        SELECT @@IDENTITY;
         """)
         result = self.execute(query,
                               user_id=user_id,
                               ingredient_id=ingredient_id,
                               coefficient=coefficient)
+        new_id = int(result.fetchone()[0])
         db.session.commit()
-        return result.lastrowid
+        return new_id
 
     def update(self, id, user_id, ingredient_id, coefficient):
         """Update a record in the database with new values"""

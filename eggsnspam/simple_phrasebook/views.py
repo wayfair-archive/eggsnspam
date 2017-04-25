@@ -23,7 +23,7 @@ def get_breakfast_preferences(user_id):
         breakfasts[ingredient['breakfast_id']][ingredient['ingredient_id']] = ingredient['coefficient']
 
     # Use dot product to score similarity of breakfast ingredients and user's preferences
-    for breakfast, ingredients in breakfasts.items():
+    for breakfast, ingredients in list(breakfasts.items()):
         breakfast_scores[breakfast] = dot_product(ingredients, user_prefs)
 
     # build the results object

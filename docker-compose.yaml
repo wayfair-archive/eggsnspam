@@ -1,0 +1,31 @@
+version: '2.1'
+services:
+  eggsnspam:
+    command: /bin/bash -c "bin/run_local.sh"
+    build:
+      context: .
+    ports:
+      - 8888:8888
+    volumes:
+      - ./:/app
+
+    environment:
+      LOG_LEVEL: "info"
+      WORKERS: 1
+      DB_PATH: "/app"
+
+    depends_on:
+      - mssql
+
+    links:
+      - mssql
+
+  mssql:
+    image: microsoft/mssql-server-linux
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: Password-123
+    ports:
+      - 1433:1433
+    volumes:
+      - /tmp/mssql_logs:/var/opt/mssql/log

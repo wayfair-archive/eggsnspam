@@ -10,4 +10,4 @@ class TestingConfig(BaseConfig):
     TESTING = True
 
     # DATABASE CONFIGURATION
-    SQLALCHEMY_DATABASE_URI = 'sqlite://'
+    SQLALCHEMY_DATABASE_URI = 'mssql+pymssql://sa:Password-123@mssql/eggsnspam_test'

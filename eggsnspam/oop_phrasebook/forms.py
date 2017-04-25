@@ -6,13 +6,13 @@ from wtforms import validators
 class UserForm(Form):
     """Form for creating or updating a user."""
 
-    first_name = fields.StringField(u'First Name', [validators.required()])
-    last_name = fields.StringField(u'Last Name', [validators.required()])
+    first_name = fields.StringField('First Name', [validators.required()])
+    last_name = fields.StringField('Last Name', [validators.required()])
 
 
 class UserPreferenceForm(Form):
     """Form for creating or updating a user preference."""
 
-    user_id = fields.IntegerField(u'User ID', [validators.required()])
-    ingredient_id = fields.IntegerField(u'Ingredient ID', [validators.required()])
-    coefficient = fields.FloatField(u'Coefficient', [validators.required()])
+    user_id = fields.IntegerField('User ID', [validators.required()])
+    ingredient_id = fields.IntegerField('Ingredient ID', [validators.required()])
+    coefficient = fields.FloatField('Coefficient', [validators.required()])

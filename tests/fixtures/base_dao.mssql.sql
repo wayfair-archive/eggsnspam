@@ -1,8 +1,7 @@
--- tblExample --
-CREATE TABLE "tblExample" (
-    id INTEGER NOT NULL, 
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE id = object_id(N'[dbo].[tblExample]'))
+CREATE TABLE [dbo].[tblExample] (
+    id INTEGER IDENTITY(1, 1),
     name VARCHAR(100) NOT NULL, 
-    PRIMARY KEY (id)
 );
 
 SET IDENTITY_INSERT tblExample ON;
