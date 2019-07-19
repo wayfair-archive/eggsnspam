@@ -1,5 +1,5 @@
 # Flask App
-Flask==0.10.1
+Flask==1.0
 wtforms==2.1
 WTForms-JSON==0.2.10
 SQLAlchemy==1.0.12
